@@ -1,0 +1,31 @@
+<style>
+#about-container {
+    grid-area: f;
+    text-align: center;
+}
+
+.thing1 { grid-area: a; text-align:center;}
+.thing2 { grid-area: b; }
+.thing3 { grid-area: c; }
+.thing4 { grid-area: d; }
+.thing5 { grid-area: e; }
+
+#about-container {
+    grid-area: f;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr, 1fr, 1fr, 1fr, 1fr, 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    'a a a a a a'
+    'b c c c c d'
+    'e e e e e e';
+  background-color: #ff0000;
+}
+
+.grid-container > div {
+    text-align:center;
+}
+</style>

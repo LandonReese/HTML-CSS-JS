@@ -1,0 +1,22 @@
+<style>
+.thing1 { grid-area: a; }
+.thing2 { grid-area: b; }
+.thing3 { grid-area: c; }
+.thing4 { grid-area: d; }
+.thing5 { grid-area: e; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'a a a a a a'
+    'b c c c c d'
+    'e e e e e e';
+  gap: 8px;
+  background-color: #0000ff;
+  padding: 1px;
+}
+
+.grid-container > div {
+    <!--text-align:center;-->
+}
+</style>
