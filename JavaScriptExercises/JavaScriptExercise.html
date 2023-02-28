@@ -1,0 +1,24 @@
+<html>
+<head>
+	<script>
+		function update() {
+            if(document.getElementById("myButton").innerHTML === "Image 1"){
+			    document.getElementById("myButton").innerHTML = "Image 2";
+                document.getElementById("image").src = "https://thecarsafe.com/wp-content/uploads/2021/04/miura3.jpg"
+            } else {
+                document.getElementById("myButton").innerHTML = "Image 1";
+                document.getElementById("image").src = "https://www.carscoops.com/wp-content/uploads/2021/05/Ford-GT-1024x555.jpg";
+            }
+        }
+	</script>
+</head>
+<body>
+    <img id="image" src = "https://www.carscoops.com/wp-content/uploads/2021/05/Ford-GT-1024x555.jpg" width = "50%" height = "50%"> 
+    <p><button id="myButton" onclick="update()">Image 1</button></p>
+</body>
+</html>
+
+<!--
+    https://www.carscoops.com/wp-content/uploads/2021/05/Ford-GT-1024x555.jpg
+    https://thecarsafe.com/wp-content/uploads/2021/04/miura3.jpg
+-->
