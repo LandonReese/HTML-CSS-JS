@@ -1,14 +1,16 @@
 <html>
 <head>
-<link rel="stylesheet" href="style1.css">
-<script src="script1.js"></script>
-<script src="script2.js"></script>
-<script src="script3.js"></script>
+<link id = "stylesheet" rel="stylesheet" href="style1.css">
+<!--script src="script1.js"></script-->
+<!--script src="script2.js"></script-->
+<!--script src="script3.js"></script-->
+<script>
+</script>
 </head>
 <body>
 <!--<p>Here is the start of this webpage</p>-->
 
-<div class = "grid-container">
+<div class = "grid-container" id = "main">
     <div class = "thing1">
     <h1>Large Header Text</h1>
     <h2>Small Header Text</h2>
@@ -16,9 +18,9 @@
 
     <div class = "thing2">
     <p>Navigation Bar</p>
-    <p><button onclick="update1()">Link 1</button></p>
-    <p><button onclick="update2()">Link 2</button></p>
-    <p><button onclick="update3()">Link 3</button></p>
+    <p><button onclick = "document.getElementById('stylesheet').setAttribute('href', 'style1.css')">Link 1</button></p>
+    <p><button onclick = "document.getElementById('stylesheet').setAttribute('href', 'style2.css')">Link 2</button></p>
+    <p><button onclick = "document.getElementById('stylesheet').setAttribute('href', 'style3.css')">Link 3</button></p>
     </div>
 
     <div class = "thing3">

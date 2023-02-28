@@ -1,4 +1,4 @@
-<style>
+
 .thing1 { grid-area: a; }
 .thing2 { grid-area: b; }
 .thing3 { grid-area: c; }
@@ -7,9 +7,13 @@
 
 .grid-container {
   display: grid;
+  grid-template-columns: 1fr, 1fr, 1fr, 1fr, 1fr, 1fr;
+  grid-template-rows: auto auto auto;
   grid-template-areas:
     'a a a a a a'
-    'b c c c c d'
+    'b b b b b b'
+    'c c c c c d'
+    'c c c c c d'
     'e e e e e e';
   gap: 8px;
   background-color: #00ff00;
@@ -17,6 +21,5 @@
 }
 
 .grid-container > div {
-    <!--text-align:center;-->
+    text-align:left;
 }
-</style>
