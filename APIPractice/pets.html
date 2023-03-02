@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function loadList(thendo){
+                fetch("http://localhost:8000/")
+                .then((r) => r.text())
+                .then((d) => {
+                    console.log(d);
+                    var pets = JSON.parse(d); // returns an array
+                    thendo(pets); //thendo acts as populateList(pet)
+                });
+            } 
+
+            function populateList(pets){
+                var thelist = document.getElementById("petNames");
+
+                    for(var pet of pets) {
+                        console.log(pet);
+                        var thelistitem = document.createElement("li");
+                        thelistitem.innerHTML = pet;
+                        thelist.appendChild(thelistitem);
+                    }
+            }
+
+            function populateButtons(pets){
+                    for(var pet of pets) {
+                        console.log(pet);
+                        var thelistitem = document.createElement("button");
+                        thelistitem.innerHTML = "Get deets on " + pet;
+                        document.body.appendChild(thelistitem);
+                    }
+            }
+
+            function populateLinks(pets){
+                    for(var pet of pets) {
+                        console.log(pet);
+                        var thelistitem = document.createElement("a");
+                        thelistitem.innerHTML = "Get deets on " + pet;
+                        var url = "onepet.html?name"
+                        thelistitem.href = "onepet.html";
+                        document.body.appendChild(thelistitem);
+                    }
+            }
+        </script>
+
+        <!-- nice to use multiple script blocks to ensure that 
+            errors do not compound between scripts-->
+        <script>
+            function dummy(){ 
+
+            }
+        </script>
+    </head>
+    <!--Comment Block 1-->
+    <style>
+    </style>
+    
+    <body>
+        <h1>Hi!</h1>
+        <button onclick="loadList(populateLinks)">Load list of objects</button>
+        <button onclick="dummy()">Dum Dum you give me Gum Gum</button>
+        <!--ul is unordered list-->
+        <ul id="petNames">
+            <h3>Pets available for adoption</h3>
+        </ul>
+    </body>
+</html>
