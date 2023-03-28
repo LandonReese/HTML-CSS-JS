@@ -1,9 +1,14 @@
 <html>
     <script>
-        //Comments
+        // Patch to update, delete to delete, put to add new pets, could use post to create a new pet
+        app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
+        // under the ~ exists the back-tick
+        //`${id_name}` 
     </script>
     <body>
         <h1>Write an HTML based front end to interact with the PET Rest Server</h1>
-
+        var app = express(); <!--need for creating a server -->
+        app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
+        app.listen(3000); <!--need for getting input from server? -->
     </body>
 </html>
