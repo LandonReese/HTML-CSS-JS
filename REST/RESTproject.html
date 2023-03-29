@@ -1,6 +1,18 @@
 <html>
     <head>
         <script>
+            // 1. List the pets available for adoption 
+            // 2. Get details for one specific pet (from the prior list) 
+            // 3. Adopt one pet, i.e. delete it such that it no longer appears on the list from #1  The “B” version (graded from 90 points max) requirements include everything above plus: 
+            // 4. The ability to update the details (except for the name) of one pet
+            // 5. The ability to add new pets
+            // 
+            // Tasks Completed:
+            // 1, 2, 
+        </script>
+
+        <script>
+            // Creates a list of pets, and then calls populateList
             function loadList(thendo){
                 fetch("http://localhost:8000/")
                 .then((r) => r.text())
@@ -11,8 +23,10 @@
                 });
             } 
 
+            // Fills the unordered list "petList" with all pets
             function populateList(pets){
                 var petList = document.getElementById("petList");
+                petList.innerHTML = "";
 
                     for(var pet of pets) {
                         console.log(pet);
@@ -27,12 +41,33 @@
             function populateLinks(pet){
                 console.log(pet);
                 var pL = document.getElementById("petLinks");
+                pL.innerHTML = "";
                 var petLink = document.createElement("a");
                 petLink.innerHTML = "Get details about " + pet + ". ";
                 petLink.href = "http://localhost:8000/" + pet;
                 pL.appendChild(petLink);
             }
             
+            function setPetName(){
+                var input = document.getElementById("petInputText");
+                var textToUpdate = document.getElementById("petInput");
+                textToUpdate.innerHTML = "";
+                textToUpdate.innerHTML = input.value;
+            }
+
+            function deletePet(pet){
+                fetch("http://localhost:8000/" + pet, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log(pet + ' has been deleted successfully');
+                    } else {
+                        console.error('Failed to delete ' + pet);
+                    }
+                })
+            }
+
         </script>
     </head>
     
@@ -42,6 +77,13 @@
         
         <ul id="petList"></ul>
         <ul id="petLinks"></ul>
+
+        <label for="petInputText">Enter the pet name to delete:</label>
+        <input type="text" id="petInputText">
+        <p><button id="petToDelete" onclick="setPetName()">Update Name</button></p>
+
+        <p id="petInput">Pet name to delete</p>
+        <p><button id="deleteButton" onclick="deletePet(petInput.innerHTML)">Delete pet</button></p>
 
 
         <script>
