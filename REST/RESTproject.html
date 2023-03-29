@@ -32,20 +32,22 @@
                         console.log(pet);
                         var listItem = document.createElement("li");
                         listItem.innerHTML = pet;
-                        listItem.onclick = populateLinks(pet);
+                        listItem.onclick = populateLinks(pets);
                         petList.appendChild(listItem);
                     }
             }
 
 
-            function populateLinks(pet){
-                console.log(pet);
+            function populateLinks(pets){
                 var pL = document.getElementById("petLinks");
                 pL.innerHTML = "";
-                var petLink = document.createElement("a");
-                petLink.innerHTML = "Get details about " + pet + ". ";
-                petLink.href = "http://localhost:8000/" + pet;
-                pL.appendChild(petLink);
+                
+                for(var pet of pets){
+                    var petLink = document.createElement("a");
+                    petLink.innerHTML = "Get details about " + pet;
+                    petLink.href = "http://localhost:8000/" + pet;
+                    pL.appendChild(petLink);
+                }
             }
             
             function setPetName(){
@@ -53,14 +55,21 @@
                 var textToUpdate = document.getElementById("petInput");
                 textToUpdate.innerHTML = "";
                 textToUpdate.innerHTML = input.value;
+
+                var buttonText = document.getElementById("deleteButton");
+                buttonText.innerHTML = "Adopt " + input.value;
             }
 
             function deletePet(pet){
+                //var textUpdate = document.getElementById("petInput");
+                //textUpdate.innerHTML = pet + " has been adopted!";
                 fetch("http://localhost:8000/" + pet, {
                     method: 'DELETE'
                 })
                 .then(response => {
                     if (response.ok) {
+                        var textUpdate = document.getElementById("petInput");
+                        textUpdate.innerHTML = pet + " has been adopted!";
                         console.log(pet + ' has been deleted successfully');
                     } else {
                         console.error('Failed to delete ' + pet);
