@@ -12,25 +12,16 @@
             } 
 
             function populateList(pets){
-                var thelist = document.getElementById("petNames");
+                var petList = document.getElementById("petList");
 
                     for(var pet of pets) {
                         console.log(pet);
-                        var thelistitem = document.createElement("li");
-                        thelistitem.innerHTML = pet;
-                        thelist.appendChild(thelistitem);
-                        //document.getElementById("petList").innerHTML = "" + pet;
+                        var listItem = document.createElement("li");
+                        listItem.innerHTML = pet.name;
+                        petList.appendChild(listItem);
                     }
             }
-            // Patch to update, delete to delete, put to add new pets, could use post to create a new pet
-            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
-            // under the ~ exists the back-tick
-            //`${id_name}` 
-            // Write an HTML based front end to interact with the PET Rest Server
-            // const express = require('express');
-            // var app = express(); <!--need for creating a server -->
-            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
-            // app.listen(3000); <!--need for getting input from server? -->
+            
         </script>
     </head>
     
@@ -39,17 +30,28 @@
         <p><button id="myButton" onclick="loadList(populateList)">Load Pet Information</button></p>
         
         <ul id="petList">
-            Contents of the list
+            Contents of the list:<br>
         </ul>
 
         <script>
-            var petList = document.getElementById("petList");
-            for(var i = 0; i < petList.length; i++){
-                var currentItem = myArray[i];
-			    var listItem = document.createElement("li");
-			    listItem.textContent = "Name: " + currentItem.name + ", Age: " + currentItem.age;
-			    myList.appendChild(listItem);
-            }
+            // var petList = document.getElementById("petList");
+            // for(var i = 0; i < petList.length; i++){
+            //     var currentItem = myArray[i];
+			//     var listItem = document.createElement("li");
+			//     listItem.textContent = "Name: " + currentItem.name + ", Age: " + currentItem.age;
+			//     myList.appendChild(listItem);
+            // }
+         
+    
+            // Patch to update, delete to delete, put to add new pets, could use post to create a new pet
+            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
+            // under the ~ exists the back-tick
+            //`${id_name}` 
+            // Write an HTML based front end to interact with the PET Rest Server
+            // const express = require('express');
+            // var app = express(); need for creating a server
+            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
+            // app.listen(3000); need for getting input from server?
         </script>
     </body>
 </html>
