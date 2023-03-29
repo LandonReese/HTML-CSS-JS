@@ -18,8 +18,19 @@
                         console.log(pet);
                         var listItem = document.createElement("li");
                         listItem.innerHTML = pet;
+                        listItem.onclick = populateLinks(pet);
                         petList.appendChild(listItem);
                     }
+            }
+
+
+            function populateLinks(pet){
+                console.log(pet);
+                var pL = document.getElementById("petLinks");
+                var petLink = document.createElement("a");
+                petLink.innerHTML = "Get details about " + pet + ". ";
+                petLink.href = "http://localhost:8000/" + pet;
+                pL.appendChild(petLink);
             }
             
         </script>
@@ -29,9 +40,9 @@
         <h1>Pets Available</h1>
         <p><button id="myButton" onclick="loadList(populateList)">Load Pet Information</button></p>
         
-        <ul id="petList">
-            
-        </ul>
+        <ul id="petList"></ul>
+        <ul id="petLinks"></ul>
+
 
         <script>
             // var petList = document.getElementById("petList");
