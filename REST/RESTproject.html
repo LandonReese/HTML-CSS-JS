@@ -57,9 +57,10 @@
                     var isFound = pets.find(p => p.name === pet.name);
                     if (isFound) {
                     // Pet with name "Sparky" exists in the array
-                        fetch("http://localhost:8000/" + pet, {
+                        fetch("http://localhost:8000/" + pet.name, { // DO not do exactly because it implies pet has a property for name
+                            // have a different method to get the name of the pet you want, just name, and just object properties, split them up so you can access separately
                             method: 'PATCH',
-                            body: pet
+                            body: JSON.stringify(pet)
                         })
                         .then(response => {
                             if (response.ok) {
@@ -135,8 +136,11 @@
                 //{name: "sparky", species: "aardvark", breed: "spotted", age: 200}
                 //{"species":"Dog","breed":"Labrador","age":3}
                 // var singlePetComplete = '"bob", {"species":"Dog","breed":"Labrador","age":3}';
+
+                // Step one, create a string
+                // Step 2, create an object
                 var petName = "bob";
-                var petInfo = {"species":"bro","breed":"broseph","age":24}
+                var petInfo = {species:"bro",breed:"broseph",age:24}
                 var petObject = {};
                 petObject[petName] = petInfo;
                 // var petJSON = JSON.stringify(petObject);
