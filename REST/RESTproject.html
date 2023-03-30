@@ -8,7 +8,7 @@
                 text-align: center;
             }
         </style>
-        <!-- #include server functions 
+        <!-- #include server functions??? 
         <script src="PetRESTServer.js"></script> -->
         
         <script>
@@ -54,6 +54,11 @@
             // Function call
             // updatePet(petInput.innerHTML)
             function updatePet(pet){
+                const petInformation = {
+                    species: document.getElementById("speciesUpdateText").value,
+                    breed: document.getElementById("breedUpdateText").value,
+                    age: document.getElementById("ageUpdateText").value
+                }
                 // var debug = document.getElementById("debug");
                 // debug.innerHTML = "initial pet name: " + initialPetName.innerHTML;
                 // initialPetName = pet; //DELETE THIS TESTING PURPOSES ONLY
@@ -61,21 +66,20 @@
                 initialPetName.innerHTML = document.getElementById("petList");
                 console.log("this is output " + initialPetName);
                 // Pet with name "Sparky" exists in the array
-                const petInformation = {
-                    species: document.getElementById("speciesUpdateText"),
-                    breed: document.getElementById("breedUpdateText"),
-                    age: document.getElementById("ageUpdateText")
-                }
+                
 
                 //nobody knows if the code below works at all
-                fetch(`http://localhost:8000/${initialPetName}`, { //+ initialPetName, { // DO not do exactly because it implies pet has a property for name
+                fetch("http://localhost:8000/" + pet, { //+ initialPetName, { // DO not do exactly because it implies pet has a property for name
                 // have a different method to get the name of the pet you want, just name, and just object properties, split them up so you can access separately
                     method: 'PUT',
+                    headers: { // Necessary to create a proper JSON object
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(petInformation)
                 })
                 .then(response => {
                     if (response.ok) {
-                        // var petAge = document.getElementById("ageUpdateText");
+                        // var petAge = document.getElementById("ageUpdateText").value;
                         // var petBreed = document.getElementById("breedUpdateText");
                         // var petSpecies = document.getElementById("speciesUpdateText");
                         // pet.age = petAge;
@@ -143,19 +147,37 @@
             }
 
             // Function calls createPet(addPet)
-            function createPet(thendo){
+            function createPet(){
+                const petInformation2 = {
+                    name: document.getElementById("nameInputText").value,
+                    species: document.getElementById("speciesInputText").value,
+                    breed: document.getElementById("breedInputText").value,
+                    age: document.getElementById("ageInputText").value
+                };
+
+                var petName = document.getElementById("nameInputText").value;
+                fetch(`http://localhost:8000/` + petName, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(petInformation2),
+                })
+                .then((response) => response.text())
+                .then((result) => console.log(result))
+                .catch((error) => console.error(error));
+                //thendo(print("HelloWorld"));
+            }
                 //{name: "sparky", species: "aardvark", breed: "spotted", age: 200}
                 //{"species":"Dog","breed":"Labrador","age":3}
                 // var singlePetComplete = '"bob", {"species":"Dog","breed":"Labrador","age":3}';
 
                 // Step one, create a string
                 // Step 2, create an object
-                var petName = "bob";
-                var petInfo = {species:"bro",breed:"broseph",age:24}
-                var petObject = {};
-                petObject[petName] = petInfo;
+                // var petName = "bob";
+                // var petInfo = {species:"bro",breed:"broseph",age:24}
+                // var petObject = {};
+                // petObject[petName] = petInfo;
                 // var petJSON = JSON.stringify(petObject);
-                thendo(petObject); //Afterwards, add the new pet straight into the server
+                // thendo(petObject); //Afterwards, add the new pet straight into the server
                 
                 
                 // var petName = "Barky";
@@ -163,7 +185,7 @@
                 // var pet = {};
                 // pet[petName] = petInfo;
                 // var petJSON = JSON.stringify(pet);
-            }
+            //}
 
             // EXPERIMENT WITH WHAT KAYLIE SAID ABOUT TWO PARAMETERS!!! Pass pets through it!
             // Right now, it is failing to fetch to search for pets, pass through pets to avoid this issue
@@ -253,7 +275,7 @@
             <label for="ageInputText">Age:</label>
             <input type="text" id="ageInputText"><br>
 
-            <p><button id="creatButton" onclick="createPet(addPet)">Create and Add a new Pet</button></p>
+            <p><button id="creatButton" onclick="createPet()">Create and Add a new Pet</button></p>
         </div>
 
 
