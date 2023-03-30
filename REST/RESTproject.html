@@ -56,7 +56,7 @@
 
             // Function call
             // updatePet(petInput.innerHTML)
-            function updatePet(pet){
+            function updatePet(petName){ //change to some form of petName that needs to be updated
                 const petInformation = {
                     species: document.getElementById("speciesUpdateText").value,
                     breed: document.getElementById("breedUpdateText").value,
@@ -205,28 +205,28 @@
             // 
             // }
 
-            function addPet(pet){ //pet acts as petJSON above, the JSON equivalent of my file
-                //var textUpdate = document.getElementById("petInput");
-                //textUpdate.innerHTML = pet + " has been adopted!";
-                // var parsedPet = JSON.parse(pet);
-                fetch("http://localhost:8000/", { // Used to be: "...host:8000/" + pet,
-                    method: 'POST',
-                    headers: { // Necessary to create a proper JSON object
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(pet) //already JSON.stringify()
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        var textUpdate = document.getElementById("petInput");
+            // function addPet(pet){ //pet acts as petJSON above, the JSON equivalent of my file
+            //     //var textUpdate = document.getElementById("petInput");
+            //     //textUpdate.innerHTML = pet + " has been adopted!";
+            //     // var parsedPet = JSON.parse(pet);
+            //     fetch("http://localhost:8000/", { // Used to be: "...host:8000/" + pet,
+            //         method: 'POST',
+            //         headers: { // Necessary to create a proper JSON object
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify(pet) //already JSON.stringify()
+            //     })
+            //     .then(response => {
+            //         if (!response.ok) {
+            //             var textUpdate = document.getElementById("petInput");
                         
-                        textUpdate.innerHTML = pet.name + " has been added!";
-                        console.log(pet + ' has been added successfully');
-                    } else {
-                        console.error('Failed to add ' + pet.name);
-                    }
-                })
-            }
+            //             textUpdate.innerHTML = pet.name + " has been added!";
+            //             console.log(pet + ' has been added successfully');
+            //         } else {
+            //             console.error('Failed to add ' + pet.name);
+            //         }
+            //     })
+            // }
 
         </script>
     </head>
