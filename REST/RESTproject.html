@@ -6,9 +6,11 @@
                 border-radius: 30px;
                 background: aliceblue;
                 text-align: center;
-            };
+            }
         </style>
-
+        <!-- #include server functions -->
+        <script src="PetRESTServer.js"></script> 
+        
         <script>
             // 1. List the pets available for adoption 
             // 2. Get details for one specific pet (from the prior list) 
@@ -44,6 +46,47 @@
                         listItem.onclick = populateLinks(pets);
                         petList.appendChild(listItem);
                     }
+            }
+
+            function updatePet(pet){
+                fetch("http://localhost:8000/")
+                .then((r) => r.text())
+                .then((d) => {
+                    console.log(d);
+                    var pets = JSON.parse(d); // returns an array
+                    var isFound = pets.find(p => p.name === pet.name);
+                    if (isFound) {
+                    // Pet with name "Sparky" exists in the array
+                        fetch("http://localhost:8000/" + pet, {
+                            method: 'PATCH'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                var petAge = document.getElementById("ageInputText");
+                                var petBreed = document.getElementById("breedInputText");
+                                var petSpecies = document.getElementById("speciesInputText");
+                                pet.age = petAge;
+                                pet.breed = petBreed;
+                                pet.species = petSpecies;
+                                textUpdate.innerHTML = pet + " has been updated!";
+                                console.log(pet + ' has been updated successfully');
+                            } else {
+                                console.error('Failed to delete ' + pet);
+                            }
+                        })
+                    }
+                });
+
+                var isFound = pets.find(p => p.name === pet.name);
+                
+
+                    // for(var pet of pets) {
+                    //     console.log(pet);
+                    //     var listItem = document.createElement("li");
+                    //     listItem.innerHTML = pet;
+                    //     listItem.onclick = populateLinks(pets);
+                    //     petList.appendChild(listItem);
+                    // }
             }
 
 
@@ -88,19 +131,30 @@
 
             function createPet(thendo){
                 //{name: "sparky", species: "aardvark", breed: "spotted", age: 200}
-
-                thendo(pet); //Afterwards, add the new pet straight into the server
+                var petExample = {
+                    "name": "sparky",
+                    "species": "aardvark",
+                    "breed": "spotted",
+                    "age": 200
+                };
+                //var petString = JSON.stringify(petExample);
+                thendo(petExample); //Afterwards, add the new pet straight into the server
             }
 
             function addPet(pet){
                 //var textUpdate = document.getElementById("petInput");
                 //textUpdate.innerHTML = pet + " has been adopted!";
                 fetch("http://localhost:8000/" + pet, {
-                    method: 'POST'
+                    method: 'POST',
+                    headers: { // Necessary to create a proper JSON object
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pet)
                 })
                 .then(response => {
                     if (response.ok) {
                         var textUpdate = document.getElementById("petInput");
+                        
                         textUpdate.innerHTML = pet + " has been added!";
                         console.log(pet + ' has been added successfully');
                     } else {
