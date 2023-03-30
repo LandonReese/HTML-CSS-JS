@@ -23,6 +23,9 @@
         </script>
 
         <script>
+            var initialPetName = "";
+            var initialPetObject = "";
+
             // Creates a list of pets, and then calls populateList
             function loadList(thendo){
                 fetch("http://localhost:8000/")
@@ -48,38 +51,44 @@
                     }
             }
 
+            // Function call
+            // updatePet(petInput.innerHTML)
             function updatePet(pet){
-                fetch("http://localhost:8000/")
-                .then((r) => r.text())
-                .then((d) => {
-                    console.log(d);
-                    var pets = JSON.parse(d); // returns an array
-                    var isFound = pets.find(p => p.name === pet.name);
-                    if (isFound) {
-                    // Pet with name "Sparky" exists in the array
-                        fetch("http://localhost:8000/" + pet.name, { // DO not do exactly because it implies pet has a property for name
-                            // have a different method to get the name of the pet you want, just name, and just object properties, split them up so you can access separately
-                            method: 'PATCH',
-                            body: JSON.stringify(pet)
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                var petAge = document.getElementById("ageInputText");
-                                var petBreed = document.getElementById("breedInputText");
-                                var petSpecies = document.getElementById("speciesInputText");
-                                pet.age = petAge;
-                                pet.breed = petBreed;
-                                pet.species = petSpecies;
-                                textUpdate.innerHTML = pet + " has been updated!";
-                                console.log(pet + ' has been updated successfully');
-                            } else {
-                                console.error('Failed to delete ' + pet);
-                            }
-                        })
-                    }
-                });
+                // var debug = document.getElementById("debug");
+                // debug.innerHTML = "initial pet name: " + initialPetName.innerHTML;
+                // initialPetName = pet; //DELETE THIS TESTING PURPOSES ONLY
+                //initial log of pet name
+                initialPetName.innerHTML = document.getElementById("petList");
+                console.log("this is output " + initialPetName);
+                // Pet with name "Sparky" exists in the array
+                const petInformation = {
+                    species: document.getElementById("speciesUpdateText"),
+                    breed: document.getElementById("breedUpdateText"),
+                    age: document.getElementById("ageUpdateText")
+                }
 
-                var isFound = pets.find(p => p.name === pet.name);
+                //nobody knows if the code below works at all
+                fetch(`http://localhost:8000/${initialPetName}`, { //+ initialPetName, { // DO not do exactly because it implies pet has a property for name
+                // have a different method to get the name of the pet you want, just name, and just object properties, split them up so you can access separately
+                    method: 'PUT',
+                    body: JSON.stringify(petInformation)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // var petAge = document.getElementById("ageUpdateText");
+                        // var petBreed = document.getElementById("breedUpdateText");
+                        // var petSpecies = document.getElementById("speciesUpdateText");
+                        // pet.age = petAge;
+                        // pet.breed = petBreed;
+                        // pet.species = petSpecies;
+                        textUpdate.innerHTML = pet + " has been updated!";
+                        console.log(pet + ' has been updated successfully');
+                    } else {
+                        console.error('Update error code "you suck" ' + pet);
+                    }
+                })
+
+                //var isFound = pets.find(p => p.name === pet.name);
                 
 
                     // for(var pet of pets) {
@@ -107,6 +116,8 @@
             function setPetName(){
                 var input = document.getElementById("petInputText");
                 var textToUpdate = document.getElementById("petInput");
+                initialPetName = document.getElementById("petInput").innerHTML;
+
                 textToUpdate.innerHTML = "";
                 textToUpdate.innerHTML = input.value;
 
@@ -215,8 +226,21 @@
         <div class="box">
             <p id="petInput">"Enter a name to adopt and click update!"</p>
             <p><button id="deleteButton" onclick="deletePet(petInput.innerHTML)">Search for Pet</button></p>
-            <p><button id="updateButton" onclick="updatePet(petInput.innerHTML)">Update the details of the pet listed above</button></p>
 
+            <label for="speciesUpdateText">Species:</label>
+            <input type="text" id="speciesUpdateText"><br>
+
+            <label for="breedUpdateText">Breed:</label>
+            <input type="text" id="breedUpdateText"><br>
+
+            <label for="ageUpdateText">Age:</label>
+            <input type="text" id="ageUpdateText"><br>
+
+            <p id="debug">DEBUGGING HELP HERE</p>
+            <p><button id="updateButton" onclick="updatePet(petInput.innerHTML)">Update the details of the pet listed above</button></p>
+        </div>
+
+        <div class="box">   
             <label for="nameInputText">Name:</label>
             <input type="text" id="nameInputText"><br>
 
@@ -229,7 +253,7 @@
             <label for="ageInputText">Age:</label>
             <input type="text" id="ageInputText"><br>
 
-            <p><button id="myButton" onclick="createPet(addPet)">Create and Add a new Pet</button></p>
+            <p><button id="creatButton" onclick="createPet(addPet)">Create and Add a new Pet</button></p>
         </div>
 
 
