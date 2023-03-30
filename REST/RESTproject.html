@@ -53,7 +53,7 @@
                 
                 for(var pet of pets){
                     var petLink = document.createElement("a");
-                    petLink.innerHTML = "Get details about " + pet;
+                    petLink.innerHTML = "Get details about " + pet + "<br>";
                     petLink.href = "http://localhost:8000/" + pet;
                     pL.appendChild(petLink);
                 }
