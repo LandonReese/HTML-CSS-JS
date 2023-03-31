@@ -86,6 +86,27 @@
                 buttonText.innerHTML = "Adopt " + input.value;
             }
 
+            
+
+            // 3. Adopt one pet, i.e. delete it such that it no longer appears on the list from #1  The “B” version (graded from 90 points max) requirements include everything above plus: 
+            function deletePet(pet){
+                //var textUpdate = document.getElementById("petInput");
+                //textUpdate.innerHTML = pet + " has been adopted!";
+                fetch("http://localhost:8000/" + pet, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        var textUpdate = document.getElementById("petInput");
+                        textUpdate.innerHTML = pet + " has been adopted!";
+                        console.log(pet + ' has been deleted successfully');
+                    } else {
+                        console.error('Failed to delete ' + pet);
+                    }
+                })
+            }
+
+            // 4. The ability to update the details (except for the name) of one pet
             function updatePet(initialPetName){ //change to some form of petName that needs to be updated
                 const petInformation = {
                     species: document.getElementById("speciesUpdateText").value,
@@ -125,24 +146,8 @@
                     //     petList.appendChild(listItem);
                     // }
             }
-            
-            function deletePet(pet){
-                //var textUpdate = document.getElementById("petInput");
-                //textUpdate.innerHTML = pet + " has been adopted!";
-                fetch("http://localhost:8000/" + pet, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        var textUpdate = document.getElementById("petInput");
-                        textUpdate.innerHTML = pet + " has been adopted!";
-                        console.log(pet + ' has been deleted successfully');
-                    } else {
-                        console.error('Failed to delete ' + pet);
-                    }
-                })
-            }
 
+            // 5. The ability to add new pets
             // Function calls createPet(addPet)
             function createPet(){
                 const petInformation2 = {
