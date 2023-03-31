@@ -30,7 +30,6 @@
             var initialPetName = "";
             var initialPetObject = "";
 
-            // 1. List the pets available for adoption 
             // Creates a list of pets, and then calls populateList
             function loadList(thendo){
                 fetch("http://localhost:8000/")
@@ -58,9 +57,29 @@
 
             // Function call
             // updatePet(petInput.innerHTML)
-            
+            function updatePet(initialPetName){ 
+                const petInformation = {
+                    species: document.getElementById("speciesUpdateText").value,
+                    breed: document.getElementById("breedUpdateText").value,
+                    age: document.getElementById("ageUpdateText").value
+                }
+                
+                initialPetName.innerHTML = document.getElementById("petList");
+                console.log("this is output " + initialPetName);
+                
+                fetch("http://localhost:8000/" + initialPetName, { 
+                    method: 'PUT',
+                    headers: { // Necessary to create a proper JSON object
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(petInformation)
+                })
+                .then((response) => response.text())
+                .then((result) => console.log(result))
+                .catch((error) => console.error(error));
+            }
 
-            // 2. Get details for one specific pet (from the prior list) 
+
             function populateLinks(pets){
                 var pL = document.getElementById("petLinks");
                 pL.innerHTML = "";
@@ -86,46 +105,6 @@
                 buttonText.innerHTML = "Adopt " + input.value;
             }
 
-            function updatePet(initialPetName){ //change to some form of petName that needs to be updated
-                const petInformation = {
-                    species: document.getElementById("speciesUpdateText").value,
-                    breed: document.getElementById("breedUpdateText").value,
-                    age: document.getElementById("ageUpdateText").value
-                }
-                // var debug = document.getElementById("debug");
-                // debug.innerHTML = "initial pet name: " + initialPetName.innerHTML;
-                // initialPetName = pet; //DELETE THIS TESTING PURPOSES ONLY
-                //initial log of pet name
-                initialPetName.innerHTML = document.getElementById("petList");
-                console.log("this is output " + initialPetName);
-                // Pet with name "Sparky" exists in the array
-                
-
-                //nobody knows if the code below works at all
-                fetch("http://localhost:8000/" + initialPetName, { // SEE LINE 66 CHANGE SIMILAR+ initialPetName, { // DO not do exactly because it implies pet has a property for name
-                // have a different method to get the name of the pet you want, just name, and just object properties, split them up so you can access separately
-                    method: 'PUT',
-                    headers: { // Necessary to create a proper JSON object
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(petInformation)
-                })
-                .then((response) => response.text())
-                .then((result) => console.log(result))
-                .catch((error) => console.error(error));
-
-                //var isFound = pets.find(p => p.name === pet.name);
-                
-
-                    // for(var pet of pets) {
-                    //     console.log(pet);
-                    //     var listItem = document.createElement("li");
-                    //     listItem.innerHTML = pet;
-                    //     listItem.onclick = populateLinks(pets);
-                    //     petList.appendChild(listItem);
-                    // }
-            }
-            
             function deletePet(pet){
                 //var textUpdate = document.getElementById("petInput");
                 //textUpdate.innerHTML = pet + " has been adopted!";
@@ -163,64 +142,7 @@
                 .catch((error) => console.error(error));
                 //thendo(print("HelloWorld"));
             }
-                //{name: "sparky", species: "aardvark", breed: "spotted", age: 200}
-                //{"species":"Dog","breed":"Labrador","age":3}
-                // var singlePetComplete = '"bob", {"species":"Dog","breed":"Labrador","age":3}';
-
-                // Step one, create a string
-                // Step 2, create an object
-                // var petName = "bob";
-                // var petInfo = {species:"bro",breed:"broseph",age:24}
-                // var petObject = {};
-                // petObject[petName] = petInfo;
-                // var petJSON = JSON.stringify(petObject);
-                // thendo(petObject); //Afterwards, add the new pet straight into the server
                 
-                
-                // var petName = "Barky";
-                // var petInfo = {species: "Dog", breed: "Labrador", age: 3};
-                // var pet = {};
-                // pet[petName] = petInfo;
-                // var petJSON = JSON.stringify(pet);
-            //}
-
-            // EXPERIMENT WITH WHAT KAYLIE SAID ABOUT TWO PARAMETERS!!! Pass pets through it!
-            // Right now, it is failing to fetch to search for pets, pass through pets to avoid this issue
-            // 
-            // then
-            // 
-            // for(var pet of pets){
-            //     
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // }
-
-            // function addPet(pet){ //pet acts as petJSON above, the JSON equivalent of my file
-            //     //var textUpdate = document.getElementById("petInput");
-            //     //textUpdate.innerHTML = pet + " has been adopted!";
-            //     // var parsedPet = JSON.parse(pet);
-            //     fetch("http://localhost:8000/", { // Used to be: "...host:8000/" + pet,
-            //         method: 'POST',
-            //         headers: { // Necessary to create a proper JSON object
-            //             'Content-Type': 'application/json'
-            //         },
-            //         body: JSON.stringify(pet) //already JSON.stringify()
-            //     })
-            //     .then(response => {
-            //         if (!response.ok) {
-            //             var textUpdate = document.getElementById("petInput");
-                        
-            //             textUpdate.innerHTML = pet.name + " has been added!";
-            //             console.log(pet + ' has been added successfully');
-            //         } else {
-            //             console.error('Failed to add ' + pet.name);
-            //         }
-            //     })
-            // }
 
         </script>
     </head>
@@ -272,29 +194,7 @@
             <label for="ageInputText">Age:</label>
             <input type="text" id="ageInputText"><br>
 
-            <p><button id="creatButton" onclick="createPet()">Create and Add a new Pet</button></p>
+            <p><button id="createButton" onclick="createPet()">Create and Add a new Pet</button></p>
         </div>
-
-
-        <script>
-            // var petList = document.getElementById("petList");
-            // for(var i = 0; i < petList.length; i++){
-            //     var currentItem = myArray[i];
-			//     var listItem = document.createElement("li");
-			//     listItem.textContent = "Name: " + currentItem.name + ", Age: " + currentItem.age;
-			//     myList.appendChild(listItem);
-            // }
-         
-    
-            // Patch to update, delete to delete, put to add new pets, could use post to create a new pet
-            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
-            // under the ~ exists the back-tick
-            //`${id_name}` 
-            // Write an HTML based front end to interact with the PET Rest Server
-            // const express = require('express');
-            // var app = express(); need for creating a server
-            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
-            // app.listen(3000); need for getting input from server?
-        </script>
     </body>
 </html>
