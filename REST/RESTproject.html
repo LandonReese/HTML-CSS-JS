@@ -8,9 +8,6 @@
                 text-align: center;
             }
         </style>
-        <!-- #include server functions??? 
-        <script src="PetRESTServer.js"></script> -->
-        
         <!--
             script to run file from an unsecured server to allow for put/post to work
             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-dev-tools --allow-file-access-from-files /Users/landonreese/Documents/GitHub/HTML-CSS-JS/REST/RESTproject.html
@@ -23,11 +20,11 @@
             // 5. The ability to add new pets
             // 
             // Tasks Completed:
-            // 1, 2, 3
+            // 1, 2, 3, (4 and 5 only return 'OPTIONS' instead of their respective method calls)
         </script>
 
         <script>
-            var initialPetName = "";
+            var initialPetName = "jumbotronman";
             var initialPetObject = "";
 
             // 1. List the pets available for adoption 
@@ -55,10 +52,6 @@
                         petList.appendChild(listItem);
                     }
             }
-
-            // Function call
-            // updatePet(petInput.innerHTML)
-            
 
             // 2. Get details for one specific pet (from the prior list) 
             function populateLinks(pets){
@@ -113,19 +106,14 @@
                     breed: document.getElementById("breedUpdateText").value,
                     age: document.getElementById("ageUpdateText").value
                 }
-                // var debug = document.getElementById("debug");
-                // debug.innerHTML = "initial pet name: " + initialPetName.innerHTML;
-                // initialPetName = pet; //DELETE THIS TESTING PURPOSES ONLY
-                //initial log of pet name
                 initialPetName.innerHTML = document.getElementById("petList");
                 console.log("this is output " + initialPetName);
                 // Pet with name "Sparky" exists in the array
                 
 
                 //nobody knows if the code below works at all
-                fetch("http://localhost:8000/" + initialPetName, { // SEE LINE 66 CHANGE SIMILAR+ initialPetName, { // DO not do exactly because it implies pet has a property for name
-                // have a different method to get the name of the pet you want, just name, and just object properties, split them up so you can access separately
-                    method: 'PUT',
+                fetch("http://localhost:8000/" + initialPetName, { 
+                    method: 'PATCH',
                     headers: { // Necessary to create a proper JSON object
                         'Content-Type': 'application/json'
                     },
@@ -134,17 +122,6 @@
                 .then((response) => response.text())
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));
-
-                //var isFound = pets.find(p => p.name === pet.name);
-                
-
-                    // for(var pet of pets) {
-                    //     console.log(pet);
-                    //     var listItem = document.createElement("li");
-                    //     listItem.innerHTML = pet;
-                    //     listItem.onclick = populateLinks(pets);
-                    //     petList.appendChild(listItem);
-                    // }
             }
 
             // 5. The ability to add new pets
@@ -159,7 +136,7 @@
 
                 var petName = document.getElementById("nameInputText").value;
                 fetch(`http://localhost:8000/` + petName, {
-                    method: "POST",
+                    method: 'POST',
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(petInformation2),
                 })
@@ -168,7 +145,82 @@
                 .catch((error) => console.error(error));
                 //thendo(print("HelloWorld"));
             }
-                //{name: "sparky", species: "aardvark", breed: "spotted", age: 200}
+
+        </script>
+    </head>
+    
+    <body>
+        <div class="box">
+            <h1>Pets Available</h1>
+            <p><button id="myButton" onclick="loadList(populateList)">Load Pet Information</button></p>
+        </div>
+
+        <div class="box">
+            <ul id="petList"></ul>
+            <ul id="petLinks"></ul>
+        </div>
+
+        <div class="box">
+            <label for="petInputText">Enter the pet name to adopt:</label>
+            <input type="text" id="petInputText">
+            <p><button id="petToDelete" onclick="setPetName()">Update Name</button></p>
+        </div>
+
+        <div class="box">
+            <p id="petInput">"Enter a name to adopt and click update!"</p>
+            <p><button id="deleteButton" onclick="deletePet(petInput.innerHTML)">Search for Pet</button></p>
+
+            <label for="speciesUpdateText">Species:</label>
+            <input type="text" id="speciesUpdateText"><br>
+
+            <label for="breedUpdateText">Breed:</label>
+            <input type="text" id="breedUpdateText"><br>
+
+            <label for="ageUpdateText">Age:</label>
+            <input type="text" id="ageUpdateText"><br>
+
+            <p id="debug">DEBUGGING HELP HERE</p>
+            <p><button id="updateButton" onclick="updatePet(petInput.innerHTML)">Update the details of the pet listed above</button></p>
+        </div>
+
+        <div class="box">   
+            <label for="nameInputText">Name:</label>
+            <input type="text" id="nameInputText"><br>
+
+            <label for="speciesInputText">Species:</label>
+            <input type="text" id="speciesInputText"><br>
+
+            <label for="breedInputText">Breed:</label>
+            <input type="text" id="breedInputText"><br>
+
+            <label for="ageInputText">Age:</label>
+            <input type="text" id="ageInputText"><br>
+
+            <p><button id="creatButton" onclick="createPet()">Create and Add a new Pet</button></p>
+        </div>
+
+
+        <script>
+            // Coding notes and various findings throughout the development of this file
+            // var petList = document.getElementById("petList");
+            // for(var i = 0; i < petList.length; i++){
+            //     var currentItem = myArray[i];
+			//     var listItem = document.createElement("li");
+			//     listItem.textContent = "Name: " + currentItem.name + ", Age: " + currentItem.age;
+			//     myList.appendChild(listItem);
+            // }
+         
+    
+            // Patch to update, delete to delete, put to add new pets, could use post to create a new pet
+            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
+            // under the ~ exists the back-tick
+            //`${id_name}` 
+            // Write an HTML based front end to interact with the PET Rest Server
+            // const express = require('express');
+            // var app = express(); need for creating a server
+            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
+            // app.listen(3000); need for getting input from server?
+            //{name: "sparky", species: "aardvark", breed: "spotted", age: 200}
                 //{"species":"Dog","breed":"Labrador","age":3}
                 // var singlePetComplete = '"bob", {"species":"Dog","breed":"Labrador","age":3}';
 
@@ -226,80 +278,10 @@
             //         }
             //     })
             // }
-
-        </script>
-    </head>
-    
-    <body>
-        <div class="box">
-            <h1>Pets Available</h1>
-            <p><button id="myButton" onclick="loadList(populateList)">Load Pet Information</button></p>
-        </div>
-
-        <div class="box">
-            <ul id="petList"></ul>
-            <ul id="petLinks"></ul>
-        </div>
-
-        <div class="box">
-            <label for="petInputText">Enter the pet name to adopt:</label>
-            <input type="text" id="petInputText">
-            <p><button id="petToDelete" onclick="setPetName()">Update Name</button></p>
-        </div>
-
-        <div class="box">
-            <p id="petInput">"Enter a name to adopt and click update!"</p>
-            <p><button id="deleteButton" onclick="deletePet(petInput.innerHTML)">Search for Pet</button></p>
-
-            <label for="speciesUpdateText">Species:</label>
-            <input type="text" id="speciesUpdateText"><br>
-
-            <label for="breedUpdateText">Breed:</label>
-            <input type="text" id="breedUpdateText"><br>
-
-            <label for="ageUpdateText">Age:</label>
-            <input type="text" id="ageUpdateText"><br>
-
-            <p id="debug">DEBUGGING HELP HERE</p>
-            <p><button id="updateButton" onclick="updatePet(petInput.innerHTML)">Update the details of the pet listed above</button></p>
-        </div>
-
-        <div class="box">   
-            <label for="nameInputText">Name:</label>
-            <input type="text" id="nameInputText"><br>
-
-            <label for="speciesInputText">Species:</label>
-            <input type="text" id="speciesInputText"><br>
-
-            <label for="breedInputText">Breed:</label>
-            <input type="text" id="breedInputText"><br>
-
-            <label for="ageInputText">Age:</label>
-            <input type="text" id="ageInputText"><br>
-
-            <p><button id="creatButton" onclick="createPet()">Create and Add a new Pet</button></p>
-        </div>
-
-
-        <script>
-            // var petList = document.getElementById("petList");
-            // for(var i = 0; i < petList.length; i++){
-            //     var currentItem = myArray[i];
-			//     var listItem = document.createElement("li");
-			//     listItem.textContent = "Name: " + currentItem.name + ", Age: " + currentItem.age;
-			//     myList.appendChild(listItem);
-            // }
-         
-    
-            // Patch to update, delete to delete, put to add new pets, could use post to create a new pet
-            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
-            // under the ~ exists the back-tick
-            //`${id_name}` 
-            // Write an HTML based front end to interact with the PET Rest Server
-            // const express = require('express');
-            // var app = express(); need for creating a server
-            // app.get('/', (req, res) => {res.json("Welcome to the Pet REST Server!")})
-            // app.listen(3000); need for getting input from server?
+             // var debug = document.getElementById("debug");
+                // debug.innerHTML = "initial pet name: " + initialPetName.innerHTML;
+                // initialPetName = pet; //DELETE THIS TESTING PURPOSES ONLY
+                //initial log of pet name
         </script>
     </body>
 </html>
