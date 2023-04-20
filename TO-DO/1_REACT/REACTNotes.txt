@@ -1,0 +1,99 @@
+REACT Links
+
+node.js (nodejs.org)    npm nvm npx     REACTjs    jsx   es6   babel
+
+npx create-react-app name --use -npm
+
+npm start        localhost:3000
+
+https://reactjs.org/docs/getting-started.htmlLinks to an external site.
+
+https://reactjs.org/docs/hello-world.htmlLinks to an external site.
+
+https://reactjs.org/tutorial/tutorial.htmlLinks to an external site.
+
+https://www.w3schools.com/REACT/DEFAULT.ASPLinks to an external site.
+
+https://techobservatory.com/how-to-run-a-react-project-in-visual-studio-code/Links to an external site.
+
+##############################################################################
+Routing in REACT
+
+npm install react-router-dom --save
+
+react router v6
+
+ 
+
+https://reactrouter.com/en/main/start/conceptsLinks to an external site.
+
+ 
+
+A minimal SPA example in REACT
+
+import React, { Component } from "react";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/faq" element={<FAQ />} />
+        </Routes>
+     </BrowserRouter>
+    );
+  }
+}
+
+export default App;
+
+function Home() {
+  return (
+    <div>
+      <h2>Home</h2>
+        <ul>
+          <li><Link to="about">About</Link></li>
+          <li><Link to="faq">FAQ</Link></li>
+        </ul>
+    </div>
+  );
+}
+function About() { return <h1>About</h1>; }
+function FAQ() { return <h2>FAQ</h2>; }
+function NotFound() { return <h1>derp</h1>; }
+
+###############################################################################
+HTTP Requests in REACT
+
+CatFact.js     gets a random cat fact from "https://catfact.ninja/fact"
+
+import React, { Component } from "react";
+
+export default class CatFact extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { fact: "some random fact" };
+  }
+
+  getfact() {
+    fetch("https://catfact.ninja/fact")
+      .then((response) => response.json())
+      .then((data) => this.setState({fact: data.fact}));
+  }
+
+  componentDidMount() { this.getfact(); }
+
+  render() {
+    return (
+      <div className="CatFact">
+        <h2>Click below for a random fact about cats</h2>
+        <button onClick={() => this.getfact()}>Get New Fact</button>
+        <p>{this.state.fact}</p>
+      </div>
+    );
+  }
+}
