@@ -23,3 +23,5 @@ function render() {
 	  document.getElementById('root')
 	);
 }
+
+export default render;
