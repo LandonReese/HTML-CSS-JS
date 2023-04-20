@@ -1,0 +1,1 @@
+Have a component for each individual task of the project
