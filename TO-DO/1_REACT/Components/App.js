@@ -1,10 +1,3 @@
-// import React from "react";
-// import ReactDOM from "react-dom";
-// import App from "./Components/App";
-// import "./ReactAssignment.css";
-
-// const root = document.getElementById("root")
-// ReactDOM.render(<App />, root);
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component1 from './Components/Component1';
@@ -26,5 +19,9 @@ ReactDOM.render(
 	  <div class="footer"><Component4 /></div>
 	</div>
   </React.StrictMode>,
+  
   document.getElementById('root')
 );
+
+
+export default render;
