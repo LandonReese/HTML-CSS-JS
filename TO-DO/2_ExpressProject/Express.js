@@ -1,4 +1,9 @@
+// run server with:
+// npm run dev
+// Stop server at any time with: control + C
+
 const express = require('express');
+const PORT = 3000;
 const app = express();
 app.use(express.json()); // enable JSON body parsing
 
@@ -99,14 +104,19 @@ app.get('/books/:id', (req, res) => {
 // POST a new book
 // POST /books
 app.post('/books', (req, res) => {
-  const book = req.body;
-  book.id = (books.length + 1).toString();
-  book.avail = true;
-  book.who = "";
-  book.due = "";
-  books.push(book);
-  res.status(201).json(book);
-});
+    const book = {
+      id: req.body.id,  //(books.length + 1).toString(), //maybe change to req.body.id
+      title: req.body.title,
+      author: req.body.author,
+      publisher: req.body.publisher,
+      isbn: req.body.isbn,
+      avail: req.body.avail,
+      who: req.body.who,
+      due: req.body.due
+    };
+    books.push(book);
+    res.status(201).json(book);
+  });
 
 // PUT update a book by ID
 // PUT /books/:id
@@ -127,13 +137,13 @@ app.put('/books/:id', (req, res) => {
 // DELETE a book by ID
 // DELETE /books/:id
 app.delete('/books/:id', (req, res) => {
-    const bookIndex = inventory.findIndex(book => book.id === req.params.id);
+    const bookIndex = books.findIndex(book => book.id === req.params.id);
     if (bookIndex !== -1) {
-      inventory.splice(bookIndex, 1);
+      books.splice(bookIndex, 1);
       res.status(200).send('Book deleted');
     } else {
       res.status(204).send();
     }
 });
 // Start server on port 3000
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
