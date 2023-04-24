@@ -1,13 +1,33 @@
-// Time/Clock State Component
 import React from 'react';
 
-function Component3() {
-  return (
-    <div>
-      <h1>Component 1</h1>
-      <p>This is some text for Component 1.</p>
-    </div>
-  );
+class CurrentTimeComponent extends React.Component {
+  // Properties
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTime: new Date().toLocaleTimeString(),
+    };
+  }
+
+  componentDidMount() {
+    this.intervalId = setInterval(() => {
+      this.setState({
+        currentTime: new Date().toLocaleTimeString(),
+      });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>Current Time: {this.state.currentTime}</h2>
+      </div>
+    );
+  }
 }
 
-export default Component3;
+export default CurrentTimeComponent;

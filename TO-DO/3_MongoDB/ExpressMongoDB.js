@@ -7,8 +7,21 @@ const mongoose = require('mongoose');
 const PORT = 3000;
 const app = express();
 
-mongoose.connect('mongodb://localhost/myapp', { useNewUrlParser: true, useUnifiedTopology: true });
-const uri = 'mongodb+srv://landonjreese:<password>@cluster0.gexe2rb.mongodb.net/?retryWrites=true&w=majority';
+// TO CONNECT TO THE SERVER RUN THESE COMMANDS
+// mongod
+// mongo mongodb://localhost:3000
+
+// mongoose.connect('mongodb://localhost/myapp', { useNewUrlParser: true, useUnifiedTopology: true });
+// const uri = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/?retryWrites=true&w=majority';
+// const uro = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/test';
+mongoose.connect('mongodb://localhost/myapp', { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch((err) => {
+  console.log('Failed to connect to MongoDB', err);
+});
 
 app.use(express.json()); // enable JSON body parsing
 
