@@ -1,1 +1,7 @@
 Have a component for each individual task of the project
+
+Use two terminal windows to run two servers
+Utilize two separate port servers
+
+Express layer needs url and port that the react layer posts to
+React port will call the url that is used for express
