@@ -12,7 +12,7 @@ const app = express();
 // mongo mongodb://localhost:3000
 
 // mongoose.connect('mongodb://localhost/myapp', { useNewUrlParser: true, useUnifiedTopology: true });
-// const uri = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/?retryWrites=true&w=majority';
 // const uro = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/test';
 mongoose.connect('mongodb://localhost/myapp', { 
   useNewUrlParser: true, 
@@ -189,7 +189,18 @@ let books = [
 ];
 
 // Put all initialized books into MongoDB
-for (let bookData of books) {
-    const book = new Book(bookData);
-    await book.save();
+// Problem not being ASYNCH Currently
+// for (let bookData of books) {
+//     const book = new Book(bookData);
+//     await book.save();
+// }
+
+async function saveBooks(books) {
+  for (let bookData of books) {
+      const book = new Book(bookData);
+      await book.save();
+  }
 }
+
+// Put all initialized books into MongoDB
+saveBooks(books)
