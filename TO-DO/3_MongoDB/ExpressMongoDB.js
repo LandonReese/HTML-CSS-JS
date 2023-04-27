@@ -53,13 +53,14 @@ app.use(function(req, res, next){
 );
 
 // GET all books
-app.get('/books', async (req, res) => {
-    try {
-      const books = await Book.find();
-      res.json(books);
-    } catch (error) {
-      res.status(500).send(error);
-    }
+app.post('/books', async (req, res) => {
+  try {
+    const book = new Book(req.body);
+    await book.save();
+    res.status(201).send(book);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 // GET a specific book by ID
