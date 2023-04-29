@@ -1,27 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class ButtonClickCountComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clickCount: 0,
-    };
+function CheckInBook() {
+  const [bookId, setBookId] = useState('');
+
+  function handleCheckIn(event) {
+    event.preventDefault();
+    fetch(`http://localhost:5000/books/${bookId}/check-in`, {
+      method: 'PUT'
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err));
   }
 
-  handleClick() {
-    this.setState({
-      clickCount: this.state.clickCount + 1,
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h2>Button Click Count: {this.state.clickCount}</h2>
-        <button onClick={() => this.handleClick()}>Click me!</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h2>Check In a Book</h2>
+      <form onSubmit={handleCheckIn}>
+        <label htmlFor="bookId">Book ID:</label>
+        <input
+          type="text"
+          id="bookId"
+          value={bookId}
+          onChange={event => setBookId(event.target.value)}
+        />
+        <button type="submit">Check In</button>
+      </form>
+    </div>
+  );
 }
 
-export default ButtonClickCountComponent;
+export default CheckInBook;

@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './ReactAssignment.css';
+import './Capstone.css';
 
 import Component1 from './Components/Component1';
 import Component2 from './Components/Component2';
 import Component3 from './Components/Component3';
 import Component4 from './Components/Component4';
 
-function ReactAssignment(){
+function Capstone(){
 	return (
 	  <React.StrictMode>
 		<div className="container">
@@ -24,7 +24,7 @@ function ReactAssignment(){
 	);
 }
 
-export default ReactAssignment;
+export default Capstone;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<ReactAssignment />);
+root.render(<Capstone />);

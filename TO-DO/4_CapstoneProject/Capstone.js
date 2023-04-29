@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const PORT = 5000;
 const app = express();
+
 
 // TO CONNECT TO THE SERVER RUN THESE COMMANDS
 // mongod
@@ -20,6 +22,7 @@ mongoose.connect('mongodb://localhost/myapp', {
 });
 
 app.use(express.json()); // enable JSON body parsing
+app.use(cors());         // enable cross origin resource sharing
 
 // Initialize a way to store each book through MongoDB
 const bookSchema = new mongoose.Schema({

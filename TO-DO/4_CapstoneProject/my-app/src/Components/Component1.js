@@ -1,13 +1,26 @@
-// Component 1, Header information renderer
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-function Component1() {
+function AvailableBooks() {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/books/available')
+      .then(res => res.json())
+      .then(data => setBooks(data));
+  }, []);
+
   return (
     <div>
-      <h1>Component 1</h1>
-      <p>This is some text for Component 1.</p>
+      <h2>Available Books</h2>
+      <ul>
+        {books.map(book => (
+          <li key={book._id}>
+            {book.title} by {book.author}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-export default Component1;
+export default AvailableBooks;

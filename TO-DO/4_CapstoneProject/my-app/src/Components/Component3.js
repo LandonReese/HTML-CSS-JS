@@ -1,33 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class CurrentTimeComponent extends React.Component {
-  // Properties
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentTime: new Date().toLocaleTimeString(),
-    };
+function CheckOutBook() {
+  const [bookId, setBookId] = useState('');
+
+  function handleCheckOut(event) {
+    event.preventDefault();
+    fetch(`http://localhost:5000/books/${bookId}/check-out`, {
+      method: 'PUT'
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err));
   }
 
-  componentDidMount() {
-    this.intervalId = setInterval(() => {
-      this.setState({
-        currentTime: new Date().toLocaleTimeString(),
-      });
-    }, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-
-  render() {
-    return (
-      <div>
-        <h2>Current Time: {this.state.currentTime}</h2>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h2>Check Out a Book</h2>
+      <form onSubmit={handleCheckOut}>
+        <label htmlFor="bookId">Book ID:</label>
+        <input
+          type="text"
+          id="bookId"
+          value={bookId}
+          onChange={event => setBookId(event.target.value)}
+        />
+        <button type="submit">Check Out</button>
+      </form>
+    </div>
+  );
 }
 
-export default CurrentTimeComponent;
+export default CheckOutBook;
