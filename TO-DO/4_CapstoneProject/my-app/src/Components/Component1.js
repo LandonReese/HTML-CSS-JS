@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from 'react';
+// List Available Books
+import React, { useState, useEffect } from "react";
 
-function AvailableBooks() {
+function ListAvailableBooks() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/books/available')
-      .then(res => res.json())
-      .then(data => setBooks(data));
+    fetch("http://localhost:3000/books")
+      .then((res) => res.json())
+      .then((data) => setBooks(data.filter((book) => !book.checkedOut)));
   }, []);
 
   return (
     <div>
       <h2>Available Books</h2>
-      <ul>
-        {books.map(book => (
-          <li key={book._id}>
-            {book.title} by {book.author}
-          </li>
-        ))}
-      </ul>
+      {books.map((book) => (
+        <div key={book.id}>
+          <p>{book.title}</p>
+          <p>{book.author}</p>
+        </div>
+      ))}
     </div>
   );
 }
 
-export default AvailableBooks;
+export default ListAvailableBooks;

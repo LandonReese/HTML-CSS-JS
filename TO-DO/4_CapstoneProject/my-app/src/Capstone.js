@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './Capstone.css';
 
-import Component1 from './Components/Component1';
-import Component2 from './Components/Component2';
-import Component3 from './Components/Component3';
-import Component4 from './Components/Component4';
+import Component1 from './Components/Component1.js';
+import Component2 from './Components/Component2.js';
+import Component3 from './Components/Component3.js';
+import Component4 from './Components/Component4.js';
 
 function Capstone(){
 	return (

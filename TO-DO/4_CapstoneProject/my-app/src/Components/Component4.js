@@ -1,33 +1,19 @@
-import React, { useState } from 'react';
-
-function CheckInBook() {
-  const [bookId, setBookId] = useState('');
-
-  function handleCheckIn(event) {
-    event.preventDefault();
-    fetch(`http://localhost:5000/books/${bookId}/check-in`, {
-      method: 'PUT'
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
+// Check in a book
+const handleCheckIn = async (bookId) => {
+  try {
+    const response = await fetch(`http://localhost:3000/books/${bookId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        checkedOut: false,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    // Update state to reflect checked-in book
+  } catch (error) {
+    console.error(error);
   }
-
-  return (
-    <div>
-      <h2>Check In a Book</h2>
-      <form onSubmit={handleCheckIn}>
-        <label htmlFor="bookId">Book ID:</label>
-        <input
-          type="text"
-          id="bookId"
-          value={bookId}
-          onChange={event => setBookId(event.target.value)}
-        />
-        <button type="submit">Check In</button>
-      </form>
-    </div>
-  );
-}
-
-export default CheckInBook;
+};
