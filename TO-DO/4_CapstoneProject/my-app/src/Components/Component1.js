@@ -11,25 +11,20 @@ function ListAvailableBooks() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/books")
-      .then((res) => res.json())
-      .then((data) => {
-        setBooks(data.filter((book) => !book.checkedOut));
-      });
+    loadAllBooks();
   }, []);
 
   return (
     <div>
       <h2>Available Books</h2>
       <ul>
-        {books.map((book) => (
-          <li key={book._id}>
-            <label>
-              <input type="checkbox" />
+        {books
+          .filter((book) => book.avail)
+          .map((book) => (
+            <li key={book._id}>
               {book.title} by {book.author}. ID: {book._id}
-            </label>
-          </li>
-        ))}
+            </li>
+          ))}
       </ul>
       <button onClick={loadAllBooks}>Load All Books</button>
     </div>

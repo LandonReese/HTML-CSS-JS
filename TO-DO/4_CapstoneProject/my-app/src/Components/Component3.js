@@ -1,51 +1,52 @@
 // Check out a book
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const url = "http://localhost:5000/books";
 
-function CheckOutBook() {
-  const [bookId, setBookId] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+function BookList() {
+  const [books, setBooks] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setBooks(data.filter((book) => book.avail)));
+  }, []);
 
-    fetch(`${url}/${bookId}`, {
+  // This function will handle setting avail to false
+  const checkout = (id) => {
+    console.log(`Checking out book with ID ${id}`);
+    fetch(`${url}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ checkedOut: true }),
+      body: JSON.stringify({ avail: false }),
     })
       .then((res) => {
         if (res.ok) {
-          setSuccess(true);
-          setError("");
+          console.log(`Book with ID ${id} checked out successfully`);
+          setBooks(books.filter((book) => book._id !== id));
         } else {
           throw new Error("Book not found or already checked out");
         }
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => console.error(err));
+      window.location.reload();
   };
 
   return (
     <div>
       <h2>Check Out a Book</h2>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="bookId">Book ID:</label>
-        <input
-          type="text"
-          id="bookId"
-          value={bookId}
-          onChange={(e) => setBookId(e.target.value)}
-        />
-        <button type="submit">Check Out</button>
-      </form>
-      {success && <p>Book successfully checked out!</p>}
+      <ul>
+        {books.map((book) => (
+          <li key={book._id}>
+            {book.title} by {book.author}. ID: {book._id}
+            <button onClick={() => checkout(book._id)}>Check Out</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-export default CheckOutBook;
+export default BookList;

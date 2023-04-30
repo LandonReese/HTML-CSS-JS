@@ -12,16 +12,14 @@ function ListUnavailableBooks() {
 
   return (
     <div>
-      <h2>Unavailable Books</h2>
-      {books.map((book) => (
-        <div key={book._id}>
-          <p>{book.title}</p>
-          <p>{book.author}</p>
-          <p>{book.publisher}</p>
-          <p>{book.isbn}</p>
-          <p>{book.who} has checked out this book and it is due on {book.due}.</p>
-        </div>
-      ))}
+      <h2>Checked Out Books</h2>
+      <ul>
+        {books.map((book) => (
+          <li key={book._id}>
+            {book.title} by {book.author}. ID: {book._id}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

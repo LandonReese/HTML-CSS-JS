@@ -1,65 +1,56 @@
 // Check in a book
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function CheckInBook() {
-  const [bookId, setBookId] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [checkedInBooks, setCheckedInBooks] = useState([]);
+const url = "http://localhost:5000/books";
 
-  const handleCheckIn = async (bookId) => {
-    try {
-      const response = await fetch(`http://localhost:5000/books/${bookId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          checkedOut: false,
-        }),
-      });
-      const data = await response.json();
-      console.log(data);
-      
-      // Update state to reflect checked-in book
-      setCheckedInBooks(prevState => [...prevState, data]);
-      setSuccess(true);
-    } catch (error) {
-      console.error(error);
-    }
+function CheckInBooks() {
+  const [books, setBooks] = useState([]);
+
+  const loadAllBooks = () => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setBooks(data.filter((book) => !book.avail)));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleCheckIn(bookId);
+  useEffect(() => {
+    loadAllBooks();
+  }, []);
+
+  // This function will handle setting avail to true
+  const checkin = (id) => {
+    console.log(`Checking in book with ID ${id}`);
+    fetch(`${url}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ avail: true }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log(`Book with ID ${id} checked in successfully`);
+          loadAllBooks(); // Reload all books after checkin
+        } else {
+          throw new Error("Book not found or already checked in");
+        }
+      })
+      .catch((err) => console.error(err));
+      window.location.reload();
   };
 
   return (
     <div>
       <h2>Check In a Book</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="bookId">Book ID:</label>
-        <input
-          type="text"
-          id="bookId"
-          value={bookId}
-          onChange={(e) => setBookId(e.target.value)}
-        />
-        <button type="submit">Check In</button>
-      </form>
-      {success && <p>Book successfully checked in!</p>}
-      {checkedInBooks.length > 0 && (
-        <div>
-          <h3>Checked-In Books</h3>
-          {checkedInBooks.map((book) => (
-            <div key={book.id}>
-              <p>{book.title}</p>
-              <p>{book.author}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      <ul>
+        {books.map((book) => (
+          <li key={book._id}>
+            {book.title} by {book.author}. ID: {book._id}
+            <button onClick={() => checkin(book._id)}>Check In</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-export default CheckInBook;
+export default CheckInBooks;
