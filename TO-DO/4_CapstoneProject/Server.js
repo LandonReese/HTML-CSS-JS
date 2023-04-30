@@ -1,3 +1,4 @@
+// cd Documents\GitHub\HTML-CSS-JS\TO-DO\4_CapstoneProject
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -43,63 +44,65 @@ app.use(function(req, res, next){
 app.get('/books', async (req, res) => {
   try {
     const books = await Book.find();
-    res.status(200).json(books);
+    res.status(200).json(books); // send JSON response
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ error: error.message }); // send JSON error response
   }
 });
 
 // GET a specific book by ID
 app.get('/books/:id', async (req, res) => {
-    try {
-      const book = await Book.findById(req.params.id);
-      if (book) {
-        res.json(book);
-      } else {
-        res.status(404).json({ message: "Book not found" });
-      }
-    } catch (error) {
-      res.status(500).send(error);
+  try {
+    const book = await Book.findById(req.params.id);
+    if (book) {
+      res.send(JSON.stringify(book));
+    } else {
+      res.status(404).send(JSON.stringify({ message: "Book not found" }));
     }
+  } catch (error) {
+    res.status(500).send(JSON.stringify({ error: error.message }));
+  }
 });
 
 // POST a new book
 app.post('/books', async (req, res) => {
-    try {
-      const book = new Book(req.body);
-      await book.save();
-      res.status(201).json(book);
-    } catch (error) {
-      res.status(500).send(error);
-    }
+  try {
+    const book = new Book(req.body);
+    await book.save();
+    res.status(201).send(JSON.stringify(book));
+  } catch (error) {
+    res.status(500).send(JSON.stringify({ error: error.message }));
+  }
 });
   
 // PUT update a book by ID
 app.put('/books/:id', async (req, res) => {
-    try {
-      const id = req.params.id;
-      const book = await Book.findByIdAndUpdate(id, req.body, { new: true });
-      if (book) {
-        res.json(book);
-      } else {
-        res.status(404).json({ message: "Book not found" });
-      }
-    } catch (error) {
-      res.status(500).send(error);
+  try {
+    const id = req.params.id;
+    const book = await Book.findByIdAndUpdate(id, req.body, { new: true });
+    if (book) {
+      res.send(JSON.stringify(book));
+    } else {
+      res.status(404).send(JSON.stringify({ message: "Book not found" }));
     }
+  } catch (error) {
+    res.status(500).send(JSON.stringify({ error: error.message }));
+  }
 });
 
 // DELETE a book by ID
 // DELETE /books/:id
-app.delete('/books/:id', (req, res) => {
-  const id = req.params.id;
-  const index = books.findIndex(book => book.id === id);
-
-  if (index !== -1) {
-    books.splice(index, 1);
-    res.status(204).send();
-  } else {
-    res.status(404).send({ error: `Book with ID ${id} not found` });
+app.delete('/books/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const book = await Book.findByIdAndDelete(id);
+    if (book) {
+      res.status(204).send();
+    } else {
+      res.status(404).send(JSON.stringify({ message: "Book not found" }));
+    }
+  } catch (error) {
+    res.status(500).send(JSON.stringify(error));
   }
 });
 
@@ -172,8 +175,8 @@ let books = [
     //FIXME Rename other books
     {
       id: "7",
-      title: "Reactions in REACT",
-      author: "Ben Dover",
+      title: "Harry Potter 1",
+      author: "Someone",
       publisher: "Random House",
       isbn: "978-3-16-148410-0",
       avail: true,
@@ -182,8 +185,8 @@ let books = [
     },
     {
       id: "8",
-      title: "Reactions in REACT",
-      author: "Ben Dover",
+      title: "Harry Potter 2",
+      author: "Sometwo",
       publisher: "Random House",
       isbn: "978-3-16-148410-0",
       avail: true,
@@ -192,8 +195,8 @@ let books = [
     },
     {
       id: "9",
-      title: "Reactions in REACT",
-      author: "Ben Dover",
+      title: "Perry Hotter 3",
+      author: "Somethree",
       publisher: "Random House",
       isbn: "978-3-16-148410-0",
       avail: true,
@@ -202,8 +205,8 @@ let books = [
     },
     {
       id: "10",
-      title: "Reactions in REACT",
-      author: "Ben Dover",
+      title: "Harry Potter 4",
+      author: "Somefour",
       publisher: "Random House",
       isbn: "978-3-16-148410-0",
       avail: true,

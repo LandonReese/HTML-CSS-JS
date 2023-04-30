@@ -8,7 +8,7 @@ function CheckInBook() {
 
   const handleCheckIn = async (bookId) => {
     try {
-      const response = await fetch(`http://localhost:3000/books/${bookId}`, {
+      const response = await fetch(`http://localhost:5000/books/${bookId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

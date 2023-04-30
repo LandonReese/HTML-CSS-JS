@@ -1,24 +1,24 @@
 .container {
 	display: flex;
 	flex-direction: column;
-	height: 1000px;
+	height: flex;
 }
 .header {
 	background-color: #333333;
 	color: #ffffff;
-	height: 250px;
+	height: flex;
 }
 .upperMiddle {
 	background-color: #666666;
-    height: 250px;
+    height: flex;
 	flex: 1;
 }
 .lowerMiddle {
 	background-color: #999999;
-	height: 250px;
+	height: flex;
 	flex: 1;
 }
 .footer {
 	background-color: #cccccc;
-	height: 250px;
+	height: flex;
 }

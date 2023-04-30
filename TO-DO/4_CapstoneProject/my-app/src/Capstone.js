@@ -24,6 +24,3 @@ function Capstone(){
 }
 
 export default Capstone;
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Capstone />);
