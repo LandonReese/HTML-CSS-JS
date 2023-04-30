@@ -4,27 +4,16 @@ const cors = require('cors');
 const PORT = 5000;
 const app = express();
 
+// Connect to MongoDB
+const uri = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/myapp?retryWrites=true&w=majority';
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Failed to connect to MongoDB:', err));
 
-// TO CONNECT TO THE SERVER RUN THESE COMMANDS
-// mongod
-// mongo mongodb://localhost:3000
+app.use(express.json());
+app.use(cors());
 
-// mongoose.connect('mongodb://localhost/myapp', { useNewUrlParser: true, useUnifiedTopology: true });
-const uri = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/?retryWrites=true&w=majority';
-// const uro = 'mongodb+srv://landonjreese:5gVU19oOpyD4yOkB@cluster1.7eldpr6.mongodb.net/test';
-mongoose.connect('mongodb://localhost/myapp', { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((err) => {
-  console.log('Failed to connect to MongoDB', err);
-});
-
-app.use(express.json()); // enable JSON body parsing
-app.use(cors());         // enable cross origin resource sharing
-
-// Initialize a way to store each book through MongoDB
+// Define the book schema
 const bookSchema = new mongoose.Schema({
     title: String,
     author: String,
@@ -35,8 +24,7 @@ const bookSchema = new mongoose.Schema({
     due: String
 });
 
-// Instead of let books = [];
-// Use MongoDB model for Books
+// Define the Book model
 const Book = mongoose.model('Book', bookSchema);
 
 // CORS Handler
@@ -52,13 +40,12 @@ app.use(function(req, res, next){
 );
 
 // GET all books
-app.post('/books', async (req, res) => {
+app.get('/books', async (req, res) => {
   try {
-    const book = new Book(req.body);
-    await book.save();
-    res.status(201).send(book);
+    const books = await Book.find();
+    res.status(200).json(books);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 });
 
@@ -77,7 +64,6 @@ app.get('/books/:id', async (req, res) => {
 });
 
 // POST a new book
-// POST /books
 app.post('/books', async (req, res) => {
     try {
       const book = new Book(req.body);
@@ -88,9 +74,7 @@ app.post('/books', async (req, res) => {
     }
 });
   
-
 // PUT update a book by ID
-// PUT /books/:id
 app.put('/books/:id', async (req, res) => {
     try {
       const id = req.params.id;
@@ -107,19 +91,19 @@ app.put('/books/:id', async (req, res) => {
 
 // DELETE a book by ID
 // DELETE /books/:id
-app.delete('/books/:id', async (req, res) => {
-    try {
-      const id = req.params.id;
-      const result = await Book.findByIdAndDelete(id);
-      if (result) {
-        res.status(200).send('Book deleted');
-      } else {
-        res.status(404).json({ message: "Book not found" });
-      }
-    } catch (error) {
-      res.status(500).send(error);
-    }
+app.delete('/books/:id', (req, res) => {
+  const id = req.params.id;
+  const index = books.findIndex(book => book.id === id);
+
+  if (index !== -1) {
+    books.splice(index, 1);
+    res.status(204).send();
+  } else {
+    res.status(404).send({ error: `Book with ID ${id} not found` });
+  }
 });
+
+
 // Start server on port 3000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

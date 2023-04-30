@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Capstone from './Capstone.js'; //creates a bunch of errors
+import Capstone from './Capstone.js'; 
 // import MyComponent from './MyComponent';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
     <Capstone />
   </React.StrictMode>
 );

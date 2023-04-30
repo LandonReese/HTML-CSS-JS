@@ -19,6 +19,7 @@ function CheckInBook() {
       });
       const data = await response.json();
       console.log(data);
+      
       // Update state to reflect checked-in book
       setCheckedInBooks(prevState => [...prevState, data]);
       setSuccess(true);
