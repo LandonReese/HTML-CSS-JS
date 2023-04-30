@@ -13,10 +13,9 @@ function Capstone(){
 		<div className="container">
 		  <div className="header"><Component1 /></div>
 		  
-		  <div className="middle">
-			<div className="left-column"><Component2 /></div>
-			<div className="right-column"><Component3 /></div>
-		  </div>
+		  <div className="upperMiddle"><Component2 /></div>
+		  <div className="lowerMiddle"><Component3 /></div>
+		  
 		  
 		  <div className="footer"><Component4 /></div>
 		</div>
